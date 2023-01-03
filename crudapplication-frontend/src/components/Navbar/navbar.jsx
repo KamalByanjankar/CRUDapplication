@@ -6,10 +6,10 @@ function navbar() {
   return (
     <div className="navbar">
         <li>
-            <NavLink exact to="/" activeClassName="active">Home</NavLink>
+            <NavLink to="/" className={({isActive}) => (isActive ? "active": "")}>Home</NavLink>
         </li>
         <li>
-            <NavLink exact to="/addEmployee" activeClassName="active">Add Employee</NavLink>
+            <NavLink to="/addEmployee" className={({isActive}) => (isActive ? "active" : "")}>Add Employee</NavLink>
         </li>
     </div>
   )
