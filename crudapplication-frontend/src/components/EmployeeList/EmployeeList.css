@@ -1,0 +1,27 @@
+.employeeList{
+    display: grid;
+    place-items: center;
+}
+
+.employeeList > table{
+    margin: 30px 0;
+    width: 100%;
+    padding: 0 30px;
+}
+
+.employeeList > table > thead > tr{
+    background-color: lightgray;
+}
+
+.employeeList > table > thead > tr > th{
+    vertical-align: top;
+    font-size: 20px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.employeeList > table > tbody > tr > td{
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    text-align: center;
+}

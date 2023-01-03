@@ -1,6 +1,7 @@
 import './App.css';
-import EmployeeList from './components/EmployeeList/EmployeeList';
 import Navbar from './components/Navbar/navbar';
+import EmployeeList from './components/EmployeeList/EmployeeList';
+import AddEmployee from './components/AddEmployee/AddEmployee';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<EmployeeList />} />
-          {/* <Route path="/addEmployee" component={AddEmployee} */}
+          <Route path="/addEmployee" element={<AddEmployee />} />
         </Routes>
       </Router>
     </div>
