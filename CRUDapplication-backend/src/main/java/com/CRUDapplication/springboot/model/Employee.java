@@ -1,5 +1,7 @@
 package com.CRUDapplication.springboot.model;
 
+import java.util.regex.Pattern;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +23,9 @@ public class Employee {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="email_id")
+	@Column(name="email_id", unique=true)
+	@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+    flags = Pattern.Flag.CASE_INSENSITIVE)
 	private String emailId;
 	
 	public Employee() {

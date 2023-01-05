@@ -46,7 +46,7 @@ function EmployeeList() {
                                 <td>{data.lastName}</td>
                                 <td>{data.emailId}</td>
                                 <td>
-                                    <button>Edit</button>
+                                    <button>Update</button>
                                     <button onClick={() => deleteData(data.id)}>Delete</button>
                                 </td>
                             </tr>
