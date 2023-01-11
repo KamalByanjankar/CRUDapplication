@@ -15,7 +15,7 @@ function AddEmployee() {
   let navigate = useNavigate()
 
   useEffect(() => {
-    if(id === '-1'){
+    if(id === '_add'){
       return 
     }
     else{
@@ -34,7 +34,7 @@ function AddEmployee() {
     let response;
     e.preventDefault();
 
-    if(id !== '-1'){
+    if(id !== '_add'){
       response = await axios.put(`http://localhost:8080/api/v1/employees/${id}`,
       {
         "firstName":firstName,
@@ -46,7 +46,7 @@ function AddEmployee() {
       }
     }
 
-    if(id === '-1'){
+    else{
       response = await axios.post("http://localhost:8080/api/v1/employees",
       {
         "firstName": firstName,
@@ -56,9 +56,6 @@ function AddEmployee() {
       if(response){
         navigate("/")
       }
-    }
-    else{
-      return
     }
   }
 

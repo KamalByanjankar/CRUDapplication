@@ -9,7 +9,7 @@ function navbar() {
             <NavLink to="/" className={({isActive}) => (isActive ? "active": "")}>Home</NavLink>
         </li>
         <li>
-            <NavLink to="/addEmployee/-1" className={({isActive}) => (isActive ? "active" : "")}>Add Employee</NavLink>
+            <NavLink to="/addEmployee/_add" className={({isActive}) => (isActive ? "active" : "")}>Add Employee</NavLink>
         </li>
     </div>
   )
