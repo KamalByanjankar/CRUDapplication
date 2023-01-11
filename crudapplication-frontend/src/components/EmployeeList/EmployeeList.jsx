@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { useNavigate } from 'react-router-dom'
 import './EmployeeList.css'
+
 
 function EmployeeList() {
     const [employee, setEmployee] = useState([])
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        getDataFromServer();
+    }, [])
 
     //fetch data from database
     const getDataFromServer = async () => {
@@ -13,10 +19,6 @@ function EmployeeList() {
             setEmployee(response.data)
         }
     }    
-    
-    useEffect(() => {
-        getDataFromServer();
-    }, [])
 
     //delete data from database
     const deleteData = async (id) => {
@@ -26,11 +28,18 @@ function EmployeeList() {
         }
     }
 
+    //Update data in database
+    const updateData = (id) => {
+        // const data = employee.find(emp => emp.id === id)
+        navigate(`/addEmployee/${id}`)
+    }
+
   return (
     <div className="employeeList">
         <table>
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
@@ -42,11 +51,12 @@ function EmployeeList() {
                     return(
                         <tbody key={data.id}>
                             <tr>
+                                <td>{data.id}</td>
                                 <td>{data.firstName}</td>
                                 <td>{data.lastName}</td>
                                 <td>{data.emailId}</td>
                                 <td>
-                                    <button>Update</button>
+                                    <button onClick={() => updateData(data.id)}>Update</button>
                                     <button onClick={() => deleteData(data.id)}>Delete</button>
                                 </td>
                             </tr>
