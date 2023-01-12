@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './AddEmployee.css'
 
 
@@ -31,7 +33,7 @@ function AddEmployee() {
     }
   }, [id])
 
-  const addEmployee = async (e) => {
+  const addUpdateEmployee = async (e) => {
     let response;
     e.preventDefault();
 
@@ -63,7 +65,7 @@ function AddEmployee() {
   return (
     <div className="addEmployee">
         <h1>{ id === '_add' ? 'Add New Employee' : 'Update Employee'}</h1>
-        <form onSubmit={addEmployee}>
+        <form onSubmit={addUpdateEmployee}>
           <label>First Name:
             <input type="text" name="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
           </label>
