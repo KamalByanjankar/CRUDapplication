@@ -3,6 +3,7 @@ package com.CRUDapplication.springboot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +34,10 @@ public class EmployeeController {
 	
 	//get Employees using id
 	@GetMapping("/employees/{id}")
-	public Employee getEmployee(@PathVariable Long id) {
-		return employeeRepository.findById(id)
+	public ResponseEntity<Employee>	 getEmployee(@PathVariable Long id) {
+		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
+		return ResponseEntity.ok(employee);
 	}
 	
 	//post new Employees
@@ -46,13 +48,14 @@ public class EmployeeController {
 	
 	//Update existing Employees
 	@PutMapping("/employees/{id}")
-	public Employee updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
 		Employee updateEmployee = employeeRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with id " + id + " not found"));
 		updateEmployee.setFirstName(employee.getFirstName());
 		updateEmployee.setLastName(employee.getLastName());
 		updateEmployee.setEmailId(employee.getEmailId());
-		return employeeRepository.save(updateEmployee);
+		Employee updatedEmployee = employeeRepository.save(updateEmployee);
+		return ResponseEntity.ok(updatedEmployee);
 	}
 
 	//Delete Employees
