@@ -34,7 +34,7 @@ input:focus{
 }
 
 button{
-    padding: 5px;
+    padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid black;
     background-color: #addced;
@@ -46,4 +46,10 @@ button{
 button:hover{
     cursor: pointer;
     background-color: #8db4c2;
+}
+
+.addEmployee__button{
+    display: flex;
+    justify-content: space-between;
+    width: 230px;
 }

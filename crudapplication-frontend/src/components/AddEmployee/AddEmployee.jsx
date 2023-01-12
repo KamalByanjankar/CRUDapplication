@@ -19,6 +19,7 @@ function AddEmployee() {
       return 
     }
     else{
+      //get data from database of certain id
       const getDataFromServerUsingId = async () => {
         let response = await axios.get(`http://localhost:8080/api/v1/employees/${id}`)
         let employee = response.data
@@ -35,33 +36,33 @@ function AddEmployee() {
     e.preventDefault();
 
     if(id !== '_add'){
+      //update data and save in database
       response = await axios.put(`http://localhost:8080/api/v1/employees/${id}`,
       {
         "firstName":firstName,
         "lastName": lastName,
         "emailId": emailId
       })
-      if(response){
-        navigate("/")
-      }
     }
 
     else{
+      //post new data in database
       response = await axios.post("http://localhost:8080/api/v1/employees",
       {
         "firstName": firstName,
         "lastName": lastName,
         "emailId": emailId
       })
-      if(response){
-        navigate("/")
-      }
+    }
+    
+    if(response){
+      navigate("/")
     }
   }
 
   return (
     <div className="addEmployee">
-        <h1>Add New Employee</h1>
+        <h1>{ id === '_add' ? 'Add New Employee' : 'Update Employee'}</h1>
         <form onSubmit={addEmployee}>
           <label>First Name:
             <input type="text" name="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
@@ -72,7 +73,14 @@ function AddEmployee() {
           <label>Email:
             <input type="email" name="email" value={emailId} onChange={(e) => setEmailId(e.target.value)} required/>
           </label>
-          <button type="submit">Add Employee</button>
+          <div className="addEmployee__button">
+            <button type="submit">
+              { 
+                id === '_add' ? 'Add Employee' : 'Update Employee'
+              }
+            </button>
+            <button type="submit" onClick={()=>navigate("/")}>Cancel</button>
+          </div>
         </form>
     </div>
   )
