@@ -45,6 +45,9 @@ function AddEmployee() {
         "lastName": lastName,
         "emailId": emailId
       })
+      toast.success('Employee with id ' + id + 'has been updated', {
+        position: toast.POSITION.TOP_RIGHT
+      })
     }
 
     else{
@@ -55,11 +58,21 @@ function AddEmployee() {
         "lastName": lastName,
         "emailId": emailId
       })
+      toast.success('New Employee has been added', {
+        position: toast.POSITION.TOP_RIGHT
+      })
     }
     
     if(response){
       navigate("/")
     }
+  }
+
+  const formCancelHandler = () => {
+    navigate("/")
+    toast.success('Form has been cancelled', {
+      position: toast.POSITION.TOP_RIGHT
+    })
   }
 
   return (
@@ -81,7 +94,7 @@ function AddEmployee() {
                 id === '_add' ? 'Add Employee' : 'Update Employee'
               }
             </button>
-            <button type="submit" onClick={()=>navigate("/")}>Cancel</button>
+            <button type="submit" onClick={formCancelHandler}>Cancel</button>
           </div>
         </form>
     </div>

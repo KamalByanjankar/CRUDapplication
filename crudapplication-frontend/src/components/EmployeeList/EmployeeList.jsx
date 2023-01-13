@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './EmployeeList.css'
 
 
@@ -23,6 +26,9 @@ function EmployeeList() {
     //delete data from database
     const deleteData = async (id) => {
         const response = await axios.delete(`http://localhost:8080/api/v1/employees/${id}`)
+        toast.success('Employee with id ' + id + ' has been deleted', {
+            position: toast.POSITION.TOP_RIGHT
+        })
         if(response){
             getDataFromServer();
         }
@@ -31,6 +37,9 @@ function EmployeeList() {
     //Update data in database
     const updateData = (id) => {
         // const data = employee.find(emp => emp.id === id)
+        toast.success(`Update Employee with id ${id}!`, {
+            position: toast.POSITION.TOP_RIGHT
+        })
         navigate(`/addEmployee/${id}`)
     }
 
