@@ -9,6 +9,7 @@ import './EmployeeList.css'
 
 function EmployeeList() {
     const [employee, setEmployee] = useState([])
+    const [filteredEmployee, setFilteredEmployee] = useState([])
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -20,6 +21,7 @@ function EmployeeList() {
         const response = await axios.get("http://localhost:8080/api/v1/employees")
         if(response && response.data){
             setEmployee(response.data)
+            setFilteredEmployee(response.data)
         }
     }    
 
@@ -32,6 +34,8 @@ function EmployeeList() {
         if(response){
             getDataFromServer();
         }
+        // const newUserList = employee.filter((user) => user.id !== id)
+        // setEmployee(newUserList)
     }
 
     //Update data in database
@@ -43,37 +47,68 @@ function EmployeeList() {
         navigate(`/addEmployee/${id}`)
     }
 
+    //search employee 
+    const searchEmployee = (e) => {
+        const keyword = e.target.value.toLowerCase();
+
+        if (keyword !== ''){
+            const searchResult = employee.filter((emp) => {
+                return emp.firstName.toLowerCase().startsWith(keyword)
+            })
+            setFilteredEmployee(searchResult)
+        }
+        else{
+            getDataFromServer()
+        }
+    }
+
   return (
     <div className="employeeList">
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            {
-                employee.map((data) => {
-                    return(
-                        <tbody key={data.id}>
-                            <tr>
-                                <td>{data.id}</td>
-                                <td>{data.firstName}</td>
-                                <td>{data.lastName}</td>
-                                <td>{data.emailId}</td>
-                                <td>
-                                    <button onClick={() => updateData(data.id)}>Update</button>
-                                    <button onClick={() => deleteData(data.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    )
-                })
-            }
-        </table>
+        <div className="employeeList__search">
+            <input 
+                type="search" 
+                value={employee.firstName} 
+                className="search__input" 
+                placeholder='Search an Employee'
+                onChange={searchEmployee}
+            />
+        </div>
+        {
+            filteredEmployee && filteredEmployee.length > 0 ? (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    {
+                        filteredEmployee.map((data) => {
+                            return(
+                                <tbody key={data.id}>
+                                    <tr>
+                                        <td>{data.id}</td>
+                                        <td>{data.firstName}</td>
+                                        <td>{data.lastName}</td>
+                                        <td>{data.emailId}</td>
+                                        <td>
+                                            <button onClick={() => updateData(data.id)}>Update</button>
+                                            <button onClick={() => deleteData(data.id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            )
+                        })
+                    }
+                </table>
+            ) : (
+                <h1>No Employees found!</h1>
+            )
+        }
+        
     </div>
   )
 }
