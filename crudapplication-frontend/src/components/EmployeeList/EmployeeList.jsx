@@ -34,6 +34,8 @@ function EmployeeList() {
         if(response){
             getDataFromServer();
         }
+
+        //removes data from list but not from db
         // const newUserList = employee.filter((user) => user.id !== id)
         // setEmployee(newUserList)
     }

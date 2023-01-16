@@ -45,7 +45,7 @@ function AddEmployee() {
         "lastName": lastName,
         "emailId": emailId
       })
-      toast.success('Employee with id ' + id + 'has been updated', {
+      toast.success('Employee with id ' + id + ' has been updated', {
         position: toast.POSITION.TOP_RIGHT
       })
     }
