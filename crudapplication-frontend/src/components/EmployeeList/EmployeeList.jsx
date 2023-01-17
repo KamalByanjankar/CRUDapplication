@@ -13,12 +13,15 @@ function EmployeeList() {
     let navigate = useNavigate();
 
     useEffect(() => {
-        getDataFromServer();
+        getDataFromServer()
     }, [])
 
     //fetch data from database
     const getDataFromServer = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/employees")
+        toast.success('Loading...', {
+            position: toast.POSITION.TOP_RIGHT
+        })
         if(response && response.data){
             setEmployee(response.data)
             setFilteredEmployee(response.data)
@@ -26,13 +29,19 @@ function EmployeeList() {
     }    
 
     //delete data from database
-    const deleteData = async (id) => {
+    const deleteData = async (id) => {  
         const response = await axios.delete(`http://localhost:8080/api/v1/employees/${id}`)
-        toast.success('Employee with id ' + id + ' has been deleted', {
-            position: toast.POSITION.TOP_RIGHT
-        })
         if(response){
-            getDataFromServer();
+            const timer = setTimeout(() => {
+                toast.success('Employee with id ' + id + ' has been deleted', {
+                    position: toast.POSITION.TOP_RIGHT
+                })    
+                    getDataFromServer();
+                }, 2000);
+                toast.success('Deleting id ' + id + ' ... ', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            return () => clearTimeout(timer); 
         }
 
         //removes data from list but not from db
@@ -54,13 +63,19 @@ function EmployeeList() {
         const keyword = e.target.value.toLowerCase();
 
         if (keyword !== ''){
-            const searchResult = employee.filter((emp) => {
-                return emp.firstName.toLowerCase().startsWith(keyword)
-            })
-            setFilteredEmployee(searchResult)
+            const timer = setTimeout(() => {
+                const searchResult = employee.filter((emp) => {
+                    return emp.firstName.toLowerCase().startsWith(keyword)
+                })
+                setFilteredEmployee(searchResult)
+            }, 500);  
+            return () => clearTimeout(timer);
         }
         else{
-            getDataFromServer()
+            const timer = setTimeout(() => {
+                getDataFromServer();
+            }, 500);
+            return () => clearTimeout(timer);   
         }
     }
 
