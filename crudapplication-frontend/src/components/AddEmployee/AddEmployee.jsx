@@ -80,7 +80,7 @@ function AddEmployee() {
         <h1>{ id === '_add' ? 'Add New Employee' : 'Update Employee'}</h1>
         <form onSubmit={addUpdateEmployee}>
           <label>First Name:
-            <input type="text" name="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
+            <input type="text" name="firstName" value={firstName} autoFocus onChange={(e) => setFirstName(e.target.value)} required/>
           </label>
           <label>Last Name:
             <input type="text" name="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} required/>
