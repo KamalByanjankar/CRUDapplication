@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import './EmployeeList.css'
+import { useNavigate } from 'react-router-dom';
+
+import Modal from "react-modal";
 
 
 function EmployeeList() {
     const [employee, setEmployee] = useState([])
     const [filteredEmployee, setFilteredEmployee] = useState([])
-    let navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false)
+    const [data, setData] = useState("")
 
+    const navigate = useNavigate()
+     
     useEffect(() => {
         getDataFromServer()
     }, [])
@@ -19,18 +23,29 @@ function EmployeeList() {
     //fetch data from database
     const getDataFromServer = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/employees")
-        toast.success('Loading...', {
-            position: toast.POSITION.TOP_RIGHT
-        })
+        // toast.success('Loading...', {
+        //     position: toast.POSITION.TOP_RIGHT
+        // })
         if(response && response.data){
             setEmployee(response.data)
             setFilteredEmployee(response.data)
         }
-    }    
+    }   
 
-    //delete data from database
-    const deleteData = async (id) => {  
+    const cancelHandler = () => {
+        setIsOpen(false)
+    }
+
+    //pop up confirmation box to delete
+    const openPopUp = (data) => {
+        setData(data)
+        setIsOpen(true)
+    }
+
+    //delete data after confirmation
+    const deleteDatafromDatabase = async (id) => {
         const response = await axios.delete(`http://localhost:8080/api/v1/employees/${id}`)
+        setIsOpen(false)
         if(response){
             const timer = setTimeout(() => {
                 toast.success('Employee with id ' + id + ' has been deleted', {
@@ -43,6 +58,7 @@ function EmployeeList() {
                 })
             return () => clearTimeout(timer); 
         }
+
 
         //removes data from list but not from db
         // const newUserList = employee.filter((user) => user.id !== id)
@@ -65,7 +81,7 @@ function EmployeeList() {
         if (keyword !== ''){
             const timer = setTimeout(() => {
                 const searchResult = employee.filter((emp) => {
-                    return emp.firstName.toLowerCase().startsWith(keyword)
+                    return emp.firstName.toLowerCase().startsWith(keyword) || emp.lastName.toLowerCase().startsWith(keyword)
                 })
                 setFilteredEmployee(searchResult)
             }, 500);  
@@ -113,19 +129,32 @@ function EmployeeList() {
                                         <td>{data.emailId}</td>
                                         <td>
                                             <button onClick={() => updateData(data.id)}>Update</button>
-                                            <button onClick={() => deleteData(data.id)}>Delete</button>
+                                            <button onClick={() => openPopUp(data)}>Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             )
                         })
                     }
+                    <Modal
+                        isOpen={isOpen}
+                        onRequestClose={cancelHandler}
+                        contentLabel="My dialog"
+                        ariaHideApp={false}
+                        className="employeeList__deleteModal"
+                        overlayClassName="employeeList__deleteModal__overlay"
+                    >
+                        <p>Do you want to delete id {data.id}?</p>
+                        <div className="employeelist__modalbtn">
+                            <button onClick={() => deleteDatafromDatabase(data.id)}>Yes</button>
+                            <button onClick={cancelHandler}>Cancel</button>  
+                        </div>  
+                    </Modal>
                 </table>
             ) : (
                 <h1>No Employees found!</h1>
             )
-        }
-        
+        }        
     </div>
   )
 }
