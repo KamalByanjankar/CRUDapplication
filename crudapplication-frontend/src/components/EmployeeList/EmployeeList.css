@@ -43,3 +43,31 @@
     border-radius: 5px;
     border: 1px solid black;
 }
+
+.employeeList__deleteModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    background: #fff;
+    overflow: auto;
+    border-radius: 5px;
+    outline: none;
+    padding: 30px;
+}
+  
+.employeeList__deleteModal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(61, 49, 49, 0.75);
+}
+
+.employeelist__modalbtn{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
