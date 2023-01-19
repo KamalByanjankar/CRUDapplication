@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './EmployeeList.css'
 import { useNavigate } from 'react-router-dom';
-
-import Modal from "react-modal";
+import PopUpModal from '../PopUpModal/PopUpModal';
 
 
 function EmployeeList() {
@@ -23,46 +22,16 @@ function EmployeeList() {
     //fetch data from database
     const getDataFromServer = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/employees")
-        // toast.success('Loading...', {
-        //     position: toast.POSITION.TOP_RIGHT
-        // })
         if(response && response.data){
             setEmployee(response.data)
             setFilteredEmployee(response.data)
         }
     }   
 
-    const cancelHandler = () => {
-        setIsOpen(false)
-    }
-
     //pop up confirmation box to delete
     const openPopUp = (data) => {
         setData(data)
-        setIsOpen(true)
-    }
-
-    //delete data after confirmation
-    const deleteDatafromDatabase = async (id) => {
-        const response = await axios.delete(`http://localhost:8080/api/v1/employees/${id}`)
-        setIsOpen(false)
-        if(response){
-            const timer = setTimeout(() => {
-                toast.success('Employee with id ' + id + ' has been deleted', {
-                    position: toast.POSITION.TOP_RIGHT
-                })    
-                    getDataFromServer();
-                }, 2000);
-                toast.success('Deleting id ' + id + ' ... ', {
-                    position: toast.POSITION.TOP_RIGHT
-                })
-            return () => clearTimeout(timer); 
-        }
-
-
-        //removes data from list but not from db
-        // const newUserList = employee.filter((user) => user.id !== id)
-        // setEmployee(newUserList)
+        setIsOpen(!isOpen)
     }
 
     //Update data in database
@@ -136,25 +105,17 @@ function EmployeeList() {
                             )
                         })
                     }
-                    <Modal
-                        isOpen={isOpen}
-                        onRequestClose={cancelHandler}
-                        contentLabel="My dialog"
-                        ariaHideApp={false}
-                        className="employeeList__deleteModal"
-                        overlayClassName="employeeList__deleteModal__overlay"
-                    >
-                        <p>Do you want to delete id {data.id}?</p>
-                        <div className="employeelist__modalbtn">
-                            <button onClick={() => deleteDatafromDatabase(data.id)}>Yes</button>
-                            <button onClick={cancelHandler}>Cancel</button>  
-                        </div>  
-                    </Modal>
                 </table>
             ) : (
                 <h1>No Employees found!</h1>
             )
-        }        
+        }  
+        <PopUpModal 
+            getDataFromServer={getDataFromServer}
+            id={data.id}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+        />      
     </div>
   )
 }
