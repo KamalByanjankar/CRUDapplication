@@ -12,14 +12,14 @@ function EmployeeList() {
     const [filteredEmployee, setFilteredEmployee] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [data, setData] = useState("")
-
     const navigate = useNavigate()
+
      
+    //fetche data from database
     useEffect(() => {
         getDataFromServer()
     }, [])
 
-    //fetch data from database
     const getDataFromServer = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/employees")
         if(response && response.data){
@@ -115,7 +115,8 @@ function EmployeeList() {
             id={data.id}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-        />      
+        />
+
     </div>
   )
 }
