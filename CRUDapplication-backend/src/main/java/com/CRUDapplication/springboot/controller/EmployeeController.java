@@ -47,7 +47,8 @@ public class EmployeeController {
 	@PostMapping("/employees")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Employee addEmployee(@RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+		Employee newEmployee = employeeRepository.save(employee);
+		return newEmployee;
 	}
 	
 	//Update existing Employees
@@ -65,7 +66,7 @@ public class EmployeeController {
 	//Delete Employees
 	@DeleteMapping("/employees/{id}")
 	public Employee deleteEmployee(@PathVariable("id") Long id) {
-		Optional<Employee> employeeToDelete = this.employeeRepository.findById(id);
+		Optional<Employee> employeeToDelete = employeeRepository.findById(id);
 		if(!employeeToDelete.isPresent()) {
 			return null;
 		}
