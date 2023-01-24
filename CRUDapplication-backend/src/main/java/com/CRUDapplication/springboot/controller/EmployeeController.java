@@ -1,8 +1,10 @@
 package com.CRUDapplication.springboot.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.CRUDapplication.springboot.exception.ResourceNotFoundException;
@@ -42,6 +45,7 @@ public class EmployeeController {
 	
 	//post new Employees
 	@PostMapping("/employees")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Employee addEmployee(@RequestBody Employee employee) {
 		return employeeRepository.save(employee);
 	}
@@ -60,8 +64,14 @@ public class EmployeeController {
 
 	//Delete Employees
 	@DeleteMapping("/employees/{id}")
-	public void deleteEmployee(@PathVariable Long id) {
-		employeeRepository.deleteById(id);
+	public Employee deleteEmployee(@PathVariable("id") Long id) {
+		Optional<Employee> employeeToDelete = this.employeeRepository.findById(id);
+		if(!employeeToDelete.isPresent()) {
+			return null;
+		}
+		Employee deleteEmployee = employeeToDelete.get();
+		this.employeeRepository.delete(deleteEmployee);
+		return deleteEmployee;
 	}
 	
 	//Delete all Employees
