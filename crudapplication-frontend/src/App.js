@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<EmployeeList />} />
           <Route path="/addEmployee/:id" element={<AddEmployee />} />
         </Routes>
-        <ToastContainer />
+        <ToastContainer autoClose={3000} theme="colored" newestOnTop={true}/>
       </Router>
     </div>
   );
