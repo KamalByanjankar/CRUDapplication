@@ -15,6 +15,12 @@
     "react-toastify": "^9.1.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "postcss": "8.4.31"
+  },
+  "overrides": {
+    "postcss": "$postcss"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
