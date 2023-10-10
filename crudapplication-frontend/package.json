@@ -16,12 +16,13 @@
     "web-vitals": "^2.1.4",
     "@adobe/css-tools": "4.3.1",
     "word-wrap": "1.2.5",
-    "tough-cookie": "4.1.3"
+    "tough-cookie": "4.1.3",
+    "webpack": "5.88.2",
+    "semver": "7.5.4"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
-    "postcss": "8.4.31",
-    "semver": "7.5.4"
+    "postcss": "8.4.31"
   },
   "overrides": {
     "@svgr/webpack": "$@svgr/webpack",
