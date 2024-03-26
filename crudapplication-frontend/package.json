@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4",
     "webpack": "5.88.2",
     "word-wrap": "1.2.5",
-    "follow-redirects": "1.15.6"
+    "follow-redirects": "1.15.6",
+    "webpack-dev-middleware": "7.1.1"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
